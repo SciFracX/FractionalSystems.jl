@@ -1,0 +1,13 @@
+name = "FractionalSystems"
+uuid = "43fecb94-217b-4542-9f6a-a624b53b7d19"
+authors = ["Qingyu Qu"]
+version = "0.1.0"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
