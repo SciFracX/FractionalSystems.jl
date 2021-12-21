@@ -34,17 +34,53 @@ end
 Base.print(io::IO, G::FOTF) = show(io, G)
 
 function Base.show(io::IO, G::FOTF)
-    for (i, j) in enumerate(G.num)
+    println(typeof(G))
+    print("\n")
+    for (i, _) in enumerate(G.num)
+        j=G.num[i]
         l=G.nn[i]
-        print("$j*s^"*"{$l}")
+        if i == 1
+            if j == 1
+                print("s^{$l}")
+            else
+                print("$(showfirstsign(j))s^"*"{$l}")
+            end
+        else
+            print("$(showsign(j))s^"*"{$l}")
+        end
     end
     print("\n")
 
     println("---------"^length(G.den))
 
-    for (i, j) in enumerate(G.den)
+    for (i, _) in enumerate(G.den)
+        j=G.den[i]
         l=G.nd[i]
-        print("$j*s^"*"{$l}")
+        if i == 1
+            if j == 1
+                print("s^{$l}")
+            else
+                print("$(showfirstsign(j))s^"*"{$l}")
+            end
+        else
+            print("$(showsign(j))s^"*"{$l}")
+        end
+    end
+end
+
+function showsign(a)
+    if a > 0
+        return " + "*"$a"
+    elseif a < 0
+        return " - "*"$(abs(a))"
+    end
+end
+
+function showfirstsign(a)
+    if a > 0
+        return "$a"
+    elseif a < 0
+        return "-"*"$(abs(a))"
     end
 end
 

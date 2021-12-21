@@ -6,11 +6,11 @@ DocMeta.setdocmeta!(FractionalSystems, :DocTestSetup, :(using FractionalSystems)
 makedocs(;
     modules=[FractionalSystems],
     authors="Qingyu Qu",
-    repo="https://github.com/ErikQQY/FractionalSystems.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/SciFracX/FractionalSystems.jl/blob/{commit}{path}#{line}",
     sitename="FractionalSystems.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://ErikQQY.github.io/FractionalSystems.jl",
+        canonical="https://SciFracX.github.io/FractionalSystems.jl",
         assets=String[],
     ),
     pages=[
@@ -19,6 +19,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/ErikQQY/FractionalSystems.jl",
-    devbranch="main",
+    repo="github.com/SciFracX/FractionalSystems.jl",
+    devbranch="master",
 )

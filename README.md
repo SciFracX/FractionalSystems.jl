@@ -5,4 +5,17 @@
 [![Build Status](https://github.com/SciFracX/FractionalSystems.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/SciFracX/FractionalSystems.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/SciFracX/FractionalSystems.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/SciFracX/FractionalSystems.jl)
 
-FractionalSystems.jl is a Julia toolbox used to analyse the fractional order systems, 
+FractionalSystems.jl is a Julia toolbox used to analyse the fractional order systems.
+
+To add the FractionalSystems.jl, using the Julia package manager:
+
+```julia
+Pkg> add FractionalSystems
+```
+
+Or if you want to experience the latest version of FractionalSystems.jl:
+
+```julia
+Pkg> add FractionalSystems#master
+```
+

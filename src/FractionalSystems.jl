@@ -1,5 +1,9 @@
 module FractionalSystems
 
-# Write your package code here.
+include("foss/foss.jl")
+
+include("fotf/fotf.jl")
+
+export fotf, size
 
 end

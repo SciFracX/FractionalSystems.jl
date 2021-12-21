@@ -4,11 +4,27 @@ CurrentModule = FractionalSystems
 
 # FractionalSystems
 
-Documentation for [FractionalSystems](https://github.com/ErikQQY/FractionalSystems.jl).
+Hello there👋!
 
-```@index
+FractionalSystems.jl is a Julia package aiming at providing support for fractional order system analysis.
+
+## Installation
+
+To install FractionalCalculus, please open Julia REPL and press ```]``` key to use package mode and then type the following command:
+
+```julia-repl
+pkg> add FractionalSystems
 ```
 
-```@autodocs
-Modules = [FractionalSystems]
+Or if you want to experience the latest version of FractionalSystems.jl:
+
+```julia-repl
+pkg> add FractionalSystems#master
 ```
+
+## Notice
+
+FractionalSystems.jl is evolved from [FOMCON](https://fomcon.net/) and [FOTF](https://www.mathworks.com/matlabcentral/fileexchange/60874-fotf-toolbox), which are Matlab toolboxs used to serve Matlab
+
+!!! info "WIP"
+    FractionalSystems.jl is under heavy construction, some API or docs might change a lot.
