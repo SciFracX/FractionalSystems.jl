@@ -68,6 +68,8 @@ function Base.show(io::IO, G::FOTF)
     end
 end
 
+
+# Handling the signs of the polynomials's coefficients
 function showsign(a)
     if a > 0
         return " + "*"$a"
@@ -75,7 +77,6 @@ function showsign(a)
         return " - "*"$(abs(a))"
     end
 end
-
 function showfirstsign(a)
     if a > 0
         return "$a"

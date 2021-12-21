@@ -4,6 +4,6 @@ include("foss/foss.jl")
 
 include("fotf/fotf.jl")
 
-export fotf, size
+export FOTF, fotf, fotfdata
 
 end

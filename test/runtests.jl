@@ -1,6 +1,6 @@
 using FractionalSystems
 using Test
 
-@testset "FractionalSystems.jl" begin
-    # Write your tests here.
+@testset "Test FractionalSystems.jl" begin
+    include("fotf.jl")
 end
