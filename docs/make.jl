@@ -11,10 +11,11 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://SciFracX.github.io/FractionalSystems.jl",
-        assets=String[],
+        assets = [assets/favicon.ico],
     ),
-    pages=[
+    pages = [
         "Home" => "index.md",
+        "Get Started" => "get_started.md"
     ],
 )
 

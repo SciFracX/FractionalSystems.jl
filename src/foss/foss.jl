@@ -5,7 +5,7 @@ struct FOSS <: AbstractStateSpace
     b
     c
     d
-    α
+    α::Float64
     ioDelay
     E
     x0
@@ -14,6 +14,11 @@ end
 function foss(a, b, c, d, α, L, E, x0)
     return FOSS(a, b, c, d, α, L, E, x0)
 end
+
+function foss2ss(sys::FOSS)
+    return ss(sys.a, sys.b, sys.c, sys.d)
+end
+
 
 Base.print(io::IO, sys::FOSS) = show(io, sys)
 
@@ -35,7 +40,7 @@ function Base.show(io::IO, sys::FOSS)
     print("\n")
     println("\nDescriptor matrix:\n")
     print("E=\n")
-    Base.print_array(io::IO, sys.E)
+    Base.print_matrix(io::IO, sys.E)
     println("\n")
     println("Time delay is $(sys.ioDelay)")
     println("α = $(sys.α)")
