@@ -6,4 +6,5 @@ using Test
 
     @test isa(a, FOTF)
     @test fotfdata(a) == [[1, 2], [1, 2], [1, 2], [1, 2], 0]
+    @test iszero(a) == false
 end

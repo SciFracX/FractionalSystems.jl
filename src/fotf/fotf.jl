@@ -111,7 +111,13 @@ function fotfdata(G::FOTF)
     return [a, na, b, nb, L]
 end
 
-function Base.iszero(G::FOTF)
-    key=0
 
+function Base.iszero(G::FOTF)
+    (a, na, b, nb) = fotfdata(G)
+
+    if length(nb) == 1 & abs(b[1]) < eps
+        return true
+    else
+        return false
+    end
 end

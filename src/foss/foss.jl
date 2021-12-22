@@ -15,12 +15,16 @@ function foss(a, b, c, d, α, L, E, x0)
     return FOSS(a, b, c, d, α, L, E, x0)
 end
 
-# Convert fractional order state space to intege state space
-function foss2ss(sys::FOSS)
-    return ss(sys.a, sys.b, sys.c, sys.d)
+function fossdata(sys::FOSS)
+    return [sys.a sys.b sys.c sys.d sys.E sys.ioDelay sys.x0 sys.α]
 end
 
+# Convert fractional order state space to integer state space
+function foss2ss(sys::FOSS)
+    return ss(sys.a, sys.b, sys.c, sys.d, sys.ioDelay)
+end
 
+# Show the created fractional order state space
 Base.print(io::IO, sys::FOSS) = show(io, sys)
 
 function Base.show(io::IO, sys::FOSS)
