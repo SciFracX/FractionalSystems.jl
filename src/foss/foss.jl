@@ -7,7 +7,7 @@ struct FOSS <: AbstractStateSpace
     d
     α::Float64
     ioDelay
-    E::Matrix
+    E
     x0
 end
 
