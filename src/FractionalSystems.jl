@@ -8,6 +8,6 @@ include("fotf/fotf.jl")
 
 export FOTF, fotf, fotfdata
 
-export FOSS, foss
+export FOSS, foss, foss2ss
 
 end
