@@ -13,6 +13,22 @@ struct FOTF <: AbstractTransferFunction
     ioDelay
 end
 
+"""
+    fotf(numerator, order_of_numerator, denumerator, order_of_denumerator, delay)
+
+Construct the transfer function in fractional order systems.
+
+### Example
+
+```julia-repl
+julia> tf = fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
+FOTF
+
+s^{0.3} + 2s^{0.4}
+--------------
+s^{0.5} + 2s^{0.6}
+```
+"""
 function fotf(a, na, b, nb, T)
     return FOTF(a, na, b, nb, T)
 end

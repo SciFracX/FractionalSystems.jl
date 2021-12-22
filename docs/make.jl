@@ -11,7 +11,7 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://SciFracX.github.io/FractionalSystems.jl",
-        assets = [assets/favicon.ico],
+        assets = ["assets/favicon.ico"],
     ),
     pages = [
         "Home" => "index.md",
