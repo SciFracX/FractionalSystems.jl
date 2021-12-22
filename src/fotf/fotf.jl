@@ -51,7 +51,7 @@ function Base.show(io::IO, G::FOTF)
     end
     print("\n")
 
-    println("---------"^length(G.den))
+    println("-------"^length(G.den))
 
     for (i, _) in enumerate(G.den)
         j=G.den[i]

@@ -19,3 +19,6 @@ Or if you want to experience the latest version of FractionalSystems.jl:
 Pkg> add FractionalSystems#master
 ```
 
+## Notice
+
+The FractionalSystems.jl can be seen as the combination of [FOTF](https://www.mathworks.com/matlabcentral/fileexchange/60874-fotf-toolbox) and [FOMCON](https://fomcon.net/)
