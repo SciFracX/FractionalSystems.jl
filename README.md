@@ -12,7 +12,7 @@
   <a href="https://codecov.io/gh/SciFracX/FractionalSystems.jl">
     <img alt="codecov" src="https://codecov.io/gh/SciFracX/FractionalSystems.jl/branch/master/graph/badge.svg">
   </a>
-  <a href="https://www.erikqqy.xyz/FractionalSystems.jl/dev/">
+  <a href="https://scifracx.github.io/FractionalSystems.jl/dev/">
     <img src="https://img.shields.io/badge/docs-dev-blue.svg" alt="license">
   </a>
   <a href="https://github.com/SciFracX/FractionalSystems.jl/blob/master/LICENSE">
@@ -32,9 +32,12 @@
   </a>
 </p>
 
-## 🏗️🏗️🏗️🏗️🏗️🏗️WIP🚧🚧🚧🚧🚧🚧
+
 
 FractionalSystems.jl is a Julia toolbox can be used to model and analyse the fractional order systems.
+
+## 🏗️🏗️🏗️🏗️🏗️🏗️WIP🚧🚧🚧🚧🚧🚧
+
 
 To add the FractionalSystems.jl, using the Julia package manager:
 

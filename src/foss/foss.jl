@@ -21,7 +21,7 @@ end
 
 # Convert fractional order state space to integer state space
 function foss2ss(sys::FOSS)
-    return ss(sys.a, sys.b, sys.c, sys.d, sys.ioDelay)
+    return ss(sys.a, sys.b, sys.c, sys.d)
 end
 
 # Show the created fractional order state space
