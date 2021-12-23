@@ -67,7 +67,11 @@ function Base.show(io::IO, G::FOTF)
     end
     print("\n")
 
-    println("-------"^length(G.den))
+    if G.ioDelay == 0
+        println("-------"^length(G.den))
+    else
+        println("-------"^length(G.den)*"exp($(G.ioDelay)*s)")
+    end
 
     for (i, _) in enumerate(G.den)
         j=G.den[i]
