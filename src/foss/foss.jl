@@ -19,6 +19,12 @@ function fossdata(sys::FOSS)
     return [sys.a sys.b sys.c sys.d sys.E sys.ioDelay sys.x0 sys.α]
 end
 
+function minreal(G::FOSS)
+    α = G.α
+    G2 = fossdata(G)
+    G2 = minreal(G2)
+end
+
 # Convert fractional order state space to integer state space
 function foss2ss(sys::FOSS)
     return ss(sys.a, sys.b, sys.c, sys.d)

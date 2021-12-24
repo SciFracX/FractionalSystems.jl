@@ -78,7 +78,7 @@ function fotf2cotf(G::FOTF)
         a = G.den
         b = G.num
         d = b[1]/a[1]
-        return tf(d)
+        return tf(d), α
     else
         n0 = Int64.(round.(G.nd/α))
         a = zeros(maximum(n0)+1)
