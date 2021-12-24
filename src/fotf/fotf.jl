@@ -3,9 +3,9 @@ import Base: size
 
 import Base: print
 
-abstract type AbstractTransferFunction end
+abstract type AbstractFOTransferFunction end
 
-mutable struct FOTF <: AbstractTransferFunction
+mutable struct FOTF <: AbstractFOTransferFunction
     num
     nn
     den
@@ -21,7 +21,7 @@ Construct the transfer function in fractional order systems.
 ### Example
 
 ```julia-repl
-julia> tf = fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
+julia> G = fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
 FOTF
 
 s^{0.3} + 2s^{0.4}
@@ -54,11 +54,22 @@ function +(G1::FOTF, G2::FOTF)
 end
 
 """
-    fotf2cotf(G)
+    fotf2cotf(tf)
 
 Convert an FOTF object to a commensurate order object.
 
+### Example
 
+```julia-repl
+julia> fotf2cotf(G)
+TransferFunction{Discrete{Int64}, ControlSystems.SisoRational{Float64}}   
+2.0z^4 + 1.0z^3
+---------------
+2.0z^6 + 1.0z^5
+
+Sample Time: 2 (seconds)
+Discrete-time transfer function model
+```
 """
 function fotf2cotf(G::FOTF)
     α = base_order(G)
