@@ -5,7 +5,7 @@ import Base: print
 
 abstract type AbstractTransferFunction end
 
-struct FOTF <: AbstractTransferFunction
+mutable struct FOTF <: AbstractTransferFunction
     num
     nn
     den
@@ -53,9 +53,33 @@ function +(G1::FOTF, G2::FOTF)
 
 end
 
+"""
+    fotf2cotf(G)
 
+Convert an FOTF object to a commensurate order object.
+
+
+"""
 function fotf2cotf(G::FOTF)
     α = base_order(G)
+
+    if α == 0
+        a = G.den
+        b = G.num
+        d = b[1]/a[1]
+        return tf(d)
+    else
+        n0 = Int64.(round.(G.nd/α))
+        a = zeros(maximum(n0)+1)
+        a[n0.+1] = G.den
+        a = a[end:-1:1]
+
+        m0 = Int64.(round.(G.nn/α))
+        b = zeros(maximum(m0)+1)
+        b[m0.+1] = G.num
+        b = b[end:-1:1]
+        return G.ioDelay == 0 ? tf(b, a) : tf(b, a, G.ioDelay)
+    end
 end
 
 """

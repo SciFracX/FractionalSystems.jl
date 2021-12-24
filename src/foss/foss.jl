@@ -1,6 +1,6 @@
 abstract type AbstractStateSpace end
 
-struct FOSS <: AbstractStateSpace
+mutable struct FOSS <: AbstractStateSpace
     a
     b
     c
