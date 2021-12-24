@@ -42,10 +42,38 @@ function size(tf::FOTF)
     return size(tf.num)
 end
 
+"""
+Add two fractional order model.
 
+!!! warning
+    You can't add two systems with different I/O delay.
+
+"""
 function +(G1::FOTF, G2::FOTF)
 
 end
+
+
+function fotf2cotf(G::FOTF)
+    α = base_order(G)
+end
+
+function base_order(G::FOTF)
+    a=[]
+    a=[a; G.nn; G.nd]
+
+    # Julia doesn't has broadcasting `rationalize` method😟
+    nume = Int64[]
+    denume = Int64[]
+    for (_, i) in enumerate(a)
+        i = rationalize(i)
+        push!(nume, numerator(i))
+        push!(denume, denominator(i))
+    end
+    return gcd(nume)/lcm(denume)
+end
+
+
 
 Base.print(io::IO, G::FOTF) = show(io, G)
 
