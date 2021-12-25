@@ -16,6 +16,7 @@ makedocs(;
     pages = [
         "Home" => "index.md",
         "Get Started" => "get_started.md",
+        "Root Locus" => "rlocus.md",
         "Conversation" => "conversation.md"
     ],
 )

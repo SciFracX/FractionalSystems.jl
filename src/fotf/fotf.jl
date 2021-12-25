@@ -114,7 +114,11 @@ function base_order(G::FOTF)
     nume = Int64[]
     denume = Int64[]
     for (_, i) in enumerate(a)
-        i = rationalize(i)
+        if isa(i, Int64)
+            continue
+        else
+            i = rationalize(i)
+        end
         push!(nume, numerator(i))
         push!(denume, denominator(i))
     end
