@@ -25,7 +25,7 @@ Let's see the fractional order transfer function is:
 G(s) = \frac{-2s^{0.63}-4}{2s^{3.501}+3.8s^{2.42}+2.6s^{1.798}+2.5s^{1.31}+1.5}
 ```
 
-We need to know the root locus of the fractional order model is in fact the root locus of the **commensurate order** model based on the original fractional order model, so in this example, while the **base order** is $\lambda=s^{0.001}$, which means the highest order of the commensurate order model is $3501$!! It is troublesome to handle this in ControlSystems.jl, so we can approcimate the order as:
+We need to know the root locus of the fractional order model is in fact the root locus of the **commensurate order** model based on the original fractional order model, so in this example, while the **base order** is $\lambda=s^{0.001}$, which means the highest order of the commensurate order model is $3501$!! It is troublesome to handle this in ControlSystems.jl, so we can approximate the order as:
 
 ```math
 G(s)=\frac{-2s^{0.6}-4}{2s^{3.5}+3.8s^{2.4}+2.6s^{1.8}+2.5s^{1.3}+1.5}

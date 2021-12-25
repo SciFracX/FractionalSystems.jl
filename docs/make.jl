@@ -14,7 +14,7 @@ makedocs(;
         assets = ["assets/favicon.ico"],
     ),
     pages = [
-        "Home" => "index.md",
+        "FractionalSystems.jl" => "index.md",
         "Get Started" => "get_started.md",
         "Root Locus" => "rlocus.md",
         "Conversation" => "conversation.md"
