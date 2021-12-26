@@ -43,15 +43,103 @@ function size(tf::FOTF)
 end
 
 """
+Test two FOTF are  equal or not.
+"""
+#=function ==(G1::FOTF, G2::FOTF)
+
+end
+=#
+"""
 Add two fractional order model.
 
 !!! warning
     You can't add two systems with different I/O delay.
 
 """
-function +(G1::FOTF, G2::FOTF)
+#=function +(G1::FOTF, G2::FOTF)
 
 end
+=#
+#=
+function sisoplus(G1, G2)
+    if iszero(G2)
+        return G1
+    elseif G1.ioDelay == G2.ioDelay
+        key=0
+        G1=simplify(G1)
+        G2=simplify(G2)
+        (a1, na1, b1, nb1)=fotfdata(G1)
+        (a2, na2, b2, nb2)=fotfdata(G2)
+        if length(a1) == length(a2)
+            if all()
+    end
+end
+=#
+
+function simplify(G::FOTF, tol=0.000001)
+    (b, nb) = polyuniq(G.num, G.nn, tol)
+    (a, na) = polyuniq(G.den, G.nd, tol)
+
+    if length(a) == length(b)
+        da=a[1]
+        db=b[1]
+        if abs(a/da - b/db) < tol && abs(na - nb) < tol
+            a=1
+            b=db/da
+            na=0
+            nb=0
+        end
+    end
+
+    if length(nb)==0
+        nb=0
+        b=0
+        na=0
+        a=0
+    end
+
+    nn = min(na[end], nb[end])
+    nb = nb-nn
+    na = na-nn
+    return fotf(a, na, b, nb, G.ioDelay)
+end
+
+function polyuniq(a, an, tol)
+    an = sort(an, rev=true)
+    ii = sortperm(an, rev=true)
+    a = a[ii]
+    ax = diff(an)
+    key=1
+    for i = 1:length(ax)
+        if abs(ax[i]) <= tol
+            a[key] = a[key]+a[key+1]
+            deleteat!(a, key+1)
+            deleteat!(an, key+1)
+        else
+            key = key+1
+        end
+    end
+    ii = findall(x -> abs(x) > tol, a)
+    a = a[ii]
+    an = an[ii]
+    # Here  a and an become one-element vector
+    return a[1], an[1]
+end
+
+"""
+    kronsum(A, B)
+
+Return the Kronecker sum of two matrices
+"""
+function kronsum(A, B)
+    (ma, na) = size(A)
+    (mb, nb) = size(B)
+    A = reshape(A, 1, ma, 1, na)
+    B= reshape(B, mb, 1, nb, 1)
+    C = reshape(broadcast(+, A, B), (mb*mb, na*nb))
+    return C
+end
+
 
 """
     fotf2cotf(tf)
