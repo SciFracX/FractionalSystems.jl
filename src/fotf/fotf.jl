@@ -56,27 +56,48 @@ Add two fractional order model.
     You can't add two systems with different I/O delay.
 
 """
-#=function +(G1::FOTF, G2::FOTF)
-
+function +(G1::FOTF, G2::FOTF)
+    G = sisoplus(G1, G2)
+    return G
 end
-=#
-#=
-function sisoplus(G1, G2)
+
+"""
+    sisoplus(G1, G2)
+
+The addition of two single-input-single-output FOTF.
+"""
+function sisoplus(G1::FOTF, G2::FOTF)
     if iszero(G2)
         return G1
     elseif G1.ioDelay == G2.ioDelay
-        key=0
-        G1=simplify(G1)
-        G2=simplify(G2)
-        (a1, na1, b1, nb1)=fotfdata(G1)
-        (a2, na2, b2, nb2)=fotfdata(G2)
+        key = 0
+        G1 = simplify(G1)
+        G2 = simplify(G2)
+        (a1, na1, b1, nb1) = fotfdata(G1)
+        (a2, na2, b2, nb2) = fotfdata(G2)
         if length(a1) == length(a2)
-            if all()
+            if a1 == a2 && na1 == na2
+                a=a1
+                na=na1
+                b=[b1; b2]
+                nb=[nb1; nb2]
+                key=1
+            end
+        end
+
+        if key == 0
+            a = kron(a1, a2)
+            na = kronsum(na1, na2)
+            b = [kron(a1, b2); kron(b1, a2)]
+            nb = [kronsum(na1, nb2); kronsum(nb1, na2)]
+        end
+
+        G = fotf(a, na, b, nb)
+        return G
     end
 end
-=#
 
-function simplify(G::FOTF, tol=0.000001)
+function simplify(G::FOTF, tol=0.0000000001)
     (b, nb) = polyuniq(G.num, G.nn, tol)
     (a, na) = polyuniq(G.den, G.nd, tol)
 
@@ -107,12 +128,13 @@ end
 function polyuniq(a, an, tol)
     an = sort(an, rev=true)
     ii = sortperm(an, rev=true)
+
     a = a[ii]
     ax = diff(an)
-    key=1
+    key::Int64 = 1
     for i = 1:length(ax)
         if abs(ax[i]) <= tol
-            a[key] = a[key]+a[key+1]
+            a[key] = a[key] + a[key+1]
             deleteat!(a, key+1)
             deleteat!(an, key+1)
         else
@@ -131,13 +153,17 @@ end
 
 Return the Kronecker sum of two matrices
 """
-function kronsum(A, B)
-    (ma, na) = size(A)
-    (mb, nb) = size(B)
+function kronsum(A::T, B::T) where {T <: AbstractArray}
+    ma, na = size(A, 2), size(A, 1)
+    mb, nb = size(B, 2), size(B, 1)
     A = reshape(A, 1, ma, 1, na)
     B= reshape(B, mb, 1, nb, 1)
     C = reshape(broadcast(+, A, B), (mb*mb, na*nb))
     return C
+end
+
+function kronsum(A::T, B::T) where {T <: Number}
+    return A+B
 end
 
 
@@ -232,11 +258,11 @@ julia> fotfdata(G)
 ```
 """
 function fotfdata(G::FOTF)
-    b=G.num
-    a=G.den
-    nb=G.nn
-    na=G.nd
-    L=G.ioDelay
+    b = G.num
+    a = G.den
+    nb = G.nn
+    na = G.nd
+    L = G.ioDelay
 
     return [a, na, b, nb, L]
 end

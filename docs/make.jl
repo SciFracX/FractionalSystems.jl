@@ -17,6 +17,7 @@ makedocs(;
         "FractionalSystems.jl" => "index.md",
         "Get Started" => "get_started.md",
         "Root Locus" => "rlocus.md",
+        "Frequency Analysis" => "frequency.md",
         "Conversation" => "conversation.md"
     ],
 )

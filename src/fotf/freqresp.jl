@@ -1,5 +1,10 @@
 using ControlSystems
 
+"""
+    freqresp(s, G)
+
+The frequency response of FOTF.
+"""
 function ControlSystems.freqresp(s, G::FOTF)
     (a, na, b, nb, L) = fotfdata(G)
 
@@ -11,6 +16,7 @@ function ControlSystems.freqresp(s, G::FOTF)
         Q = a'*(s[k].^na)
         H1[k] = P/Q
     end
+    
     if L>0
         H1 = H1.*exp.(L*s)
     end
