@@ -1,7 +1,7 @@
 name = "FractionalSystems"
 uuid = "43fecb94-217b-4542-9f6a-a624b53b7d19"
 authors = ["Qingyu Qu <erikqqy123@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
