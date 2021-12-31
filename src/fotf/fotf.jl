@@ -1,11 +1,12 @@
 import Base: +, -, *, \
 import Base: size
+import Base: print, show
 
-import Base: print
 
 abstract type AbstractFOTransferFunction end
 
-mutable struct FOTF <: AbstractFOTransferFunction
+
+struct FOTF <: AbstractFOTransferFunction
     num
     nn
     den
@@ -30,6 +31,10 @@ s^{0.5} + 2s^{0.6}
 ```
 """
 function fotf(a, na, b, nb, T)
+    a = a
+    na = na
+    b = b
+    nb = nb
     return FOTF(a, na, b, nb, T)
 end
 
@@ -75,7 +80,7 @@ function sisoplus(G1::FOTF, G2::FOTF)
         G2 = simplify(G2)
         (a1, na1, b1, nb1) = fotfdata(G1)
         (a2, na2, b2, nb2) = fotfdata(G2)
-        if length(a1) == length(a2)
+        if length(a1) == length(a2) #eps()
             if a1 == a2 && na1 == na2
                 a=a1
                 na=na1
@@ -224,7 +229,7 @@ function base_order(G::FOTF)
     a=[]
     a=[a; G.nn; G.nd]
 
-    # Julia doesn't has broadcasting `rationalize` method😟
+    # Julia doesn't has `rationalize` method for Integer😟
     nume = Int64[]
     denume = Int64[]
     for (_, i) in enumerate(a)
@@ -271,7 +276,7 @@ end
 function Base.iszero(G::FOTF)
     (a, na, b, nb) = fotfdata(G)
 
-    if length(nb) == 1 & abs(b[1]) < eps
+    if length(nb) == 1 & abs(b[1]) < eps()
         return true
     else
         return false
