@@ -1,6 +1,6 @@
 # Conversation with ControlSystems.jl
 
-While Fractional systems are generalization of integer order control systems, so it si convinient to transform between FractionalSystems.jl and ControlSystems.jl.
+While Fractional systems are generalization of integer order control systems, so it is also convenient to transform between FractionalSystems.jl and ControlSystems.jl.
 
 ## Conversation between Transfer Function
 
