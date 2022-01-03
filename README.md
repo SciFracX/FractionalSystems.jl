@@ -53,3 +53,5 @@ Pkg> add FractionalSystems#master
 ## Notice
 
 The FractionalSystems.jl can be seen as the combination of [FOTF](https://www.mathworks.com/matlabcentral/fileexchange/60874-fotf-toolbox) and [FOMCON](https://fomcon.net/)
+
+We are working hard on FractionalSystems.jl to provide performant features as much as possible, if you are interested, don't hesitate to get in touch:)

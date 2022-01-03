@@ -102,26 +102,26 @@ function sisoplus(G1::FOTF, G2::FOTF)
     end
 end
 
-function simplify(G::FOTF, tol=0.0000000001)
-    (b, nb) = polyuniq(G.num, G.nn, tol)
-    (a, na) = polyuniq(G.den, G.nd, tol)
+function simplify(G::FOTF)
+    (b, nb) = polyuniq(G.num, G.nn, eps())
+    (a, na) = polyuniq(G.den, G.nd, eps())
 
     if length(a) == length(b)
-        da=a[1]
-        db=b[1]
-        if abs(a/da - b/db) < tol && abs(na - nb) < tol
-            a=1
-            b=db/da
-            na=0
-            nb=0
+        da = a[1]
+        db = b[1]
+        if abs(a./da - b./db) < eps() && abs(na - nb) < eps()
+            a = 1
+            b = db/da
+            na = 0
+            nb = 0
         end
     end
 
-    if length(nb)==0
-        nb=0
-        b=0
-        na=0
-        a=0
+    if length(nb) == 0
+        nb = 0
+        b = 0
+        na = 0
+        a = 0
     end
 
     nn = min(na[end], nb[end])
@@ -131,12 +131,13 @@ function simplify(G::FOTF, tol=0.0000000001)
 end
 
 function polyuniq(a, an, tol)
-    an = sort(an, rev=true)
     ii = sortperm(an, rev=true)
+    an = sort(an, rev=true)
+    
 
     a = a[ii]
     ax = diff(an)
-    key::Int64 = 1
+    key = 1
     for i = 1:length(ax)
         if abs(ax[i]) <= tol
             a[key] = a[key] + a[key+1]
@@ -150,7 +151,7 @@ function polyuniq(a, an, tol)
     a = a[ii]
     an = an[ii]
     # Here  a and an become one-element vector
-    return a[1], an[1]
+    return [a; an]
 end
 
 """
