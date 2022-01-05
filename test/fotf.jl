@@ -37,7 +37,7 @@ end
 @testset "Test simplify" begin
     g = fotf([2, 2], [4, 4], [6, 6], [8, 8])
     sg = fotf(12, 4, 4, 0)
-    @test fotfdata(simplify(g, 0.0001)) == fotfdata(sg)
+    @test fotfdata(simplify(g)) == fotfdata(sg)
 end
 
 @testset "Test freqresp" begin
