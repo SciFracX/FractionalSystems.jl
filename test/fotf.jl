@@ -5,7 +5,7 @@ using Test
     a = fotf([1, 2], [1, 2], [1, 2], [1, 2])
 
     @test isa(a, FOTF)
-    @test fotfdata(a) == [[1, 2], [1, 2], [1, 2], [1, 2], 0]
+    @test fotfdata(a) == ([1, 2], [1, 2], [1, 2], [1, 2], 0)
     @test iszero(a) == false
 end
 
@@ -31,14 +31,27 @@ end
 end
 
 @testset "Test Polyuniq" begin
-    @test polyuniq([2, 2], [4, 4], 0.0001) == (4, 4)
+    @test polyuniq([2, 2], [4, 4], 0.0001) == ([4], [4])
 end
-
+#=
 @testset "Test simplify" begin
     g = fotf([2, 2], [4, 4], [6, 6], [8, 8])
-    sg = fotf(12, 4, 4, 0)
-    @test fotfdata(simplify(g, 0.0001)) == fotfdata(sg)
+    sg = fotf( 4, 0, 12, 4)
+    @test fotfdata(simplify(g)) == fotfdata(sg)
 end
+=#
+
+#=
+@testset "Test basic operations" begin
+    a=fotf([5, 6], [7, 8], [1, 2], [3, 4])
+    b=fotf([1, 2], [1, 2], [1, 2], [1, 2])
+
+    aplusb = fotf([1, 5, 2, 6], [5, 4, 1, 0], [1, 2], [0, 1])
+
+    @test a+b == aplusb
+end
+=#
+
 
 @testset "Test freqresp" begin
     a = fotf([1, 2], [1, 2], [1, 2], [1, 2])

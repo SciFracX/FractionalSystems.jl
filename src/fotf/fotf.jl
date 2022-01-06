@@ -1,4 +1,4 @@
-import Base: +, -, *, \
+import Base: +, -, *, \, ==
 import Base: size
 import Base: print, show
 
@@ -26,7 +26,7 @@ julia> G = fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
 FOTF
 
 s^{0.3} + 2s^{0.4}
---------------
+------------------
 s^{0.5} + 2s^{0.6}
 ```
 """
@@ -55,7 +55,7 @@ Test two FOTF are  equal or not.
 end
 =#
 """
-Add two fractional order model.
+Addition operation of two fractional order model.
 
 !!! warning
     You can't add two systems with different I/O delay.
@@ -69,7 +69,7 @@ end
 """
     sisoplus(G1, G2)
 
-The addition of two single-input-single-output FOTF.
+Addition operation of two single-input-single-output FOTF.
 """
 function sisoplus(G1::FOTF, G2::FOTF)
     if iszero(G2)
@@ -97,7 +97,7 @@ function sisoplus(G1::FOTF, G2::FOTF)
             nb = [kronsum(na1, nb2); kronsum(nb1, na2)]
         end
 
-        G = fotf(a, na, b, nb)
+        G = fotf( b, nb, a, na)
         return G
     end
 end
@@ -109,7 +109,7 @@ function simplify(G::FOTF)
     if length(a) == length(b)
         da = a[1]
         db = b[1]
-        if abs(a./da - b./db) < eps() && abs(na - nb) < eps()
+        if a./da == b./db && na == nb
             a = 1
             b = db/da
             na = 0
@@ -125,9 +125,9 @@ function simplify(G::FOTF)
     end
 
     nn = min(na[end], nb[end])
-    nb = nb-nn
-    na = na-nn
-    return fotf(a, na, b, nb, G.ioDelay)
+    nb = nb.-nn
+    na = na.-nn
+    return fotf( b, nb, a, na, G.ioDelay)
 end
 
 function polyuniq(a, an, tol)
@@ -151,7 +151,7 @@ function polyuniq(a, an, tol)
     a = a[ii]
     an = an[ii]
     # Here  a and an become one-element vector
-    return [a; an]
+    return a, an
 end
 
 """
@@ -168,8 +168,32 @@ function kronsum(A::T, B::T) where {T <: AbstractArray}
     return C
 end
 
-function kronsum(A::T, B::T) where {T <: Number}
-    return A+B
+kronsum(A, B) = A .+ B
+
+"""
+Minus operation of FOTF
+"""
+function -(G1::FOTF, G2::FOTF)
+    G = G1+(-G2)
+    return G
+end
+
+-(G::FOTF)=fotf(-G.num, G.nn, G.den, G.nd)
+
+function *(G1::FOTF, G2::FOTF)
+    G = sisotimes(G1, G2)
+    return G
+end
+
+function sisotimes(G1::FOTF, G2::FOTF)
+
+end
+
+function ==(G1::FOTF, G2::FOTF)
+    key=0
+    G=G1-G2
+    b=G.num
+    key=key+(length(b))
 end
 
 
@@ -270,8 +294,20 @@ function fotfdata(G::FOTF)
     na = G.nd
     L = G.ioDelay
 
-    return [a, na, b, nb, L]
+    if typeof(a) <: Number && typeof(b) <: Number
+        a=[a]
+        b=[b]
+    end
+
+    if typeof(na) <: Number && typeof(nb) <: Number
+        na=[na]
+        nb=[nb]
+    end
+
+    return a, na, b, nb, L
 end
+
+
 
 
 function Base.iszero(G::FOTF)
