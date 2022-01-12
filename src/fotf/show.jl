@@ -1,8 +1,11 @@
 Base.print(io::IO, G::FOTF) = show(io, G)
 
+import Base.show
+
 function Base.show(io::IO, G::FOTF)
     println(typeof(G))
     print("\n")
+    #=
     for (i, _) in enumerate(G.num)
         j=G.num[i]
         l=G.nn[i]
@@ -16,24 +19,13 @@ function Base.show(io::IO, G::FOTF)
             print("$(showsign(j))s^"*"{$l}")
         end
     end
+    =#
+    print(polyshow(G.num, G.nn))
     print("\n")
-
-    G.ioDelay == 0 ? println("--------"^length(G.den)) : println("---------"^length(G.den)*" exp($(G.ioDelay)*s)")
-
-    for (i, _) in enumerate(G.den)
-        j=G.den[i]
-        l=G.nd[i]
-        if i == 1
-            if j == 1
-                print("s^{$l}")
-            else
-                print("$(showfirstsign(j))s^"*"{$l}")
-            end
-        else
-            print("$(showsign(j))s^"*"{$l}")
-        end
-    end
+    G.ioDelay == 0 ? println("-----"^max(length(G.den), length(G.num))) : println("-----"^max(length(G.den), length(G.num))*" exp($(G.ioDelay)*s)")
+    print(polyshow(G.den, G.nd))
 end
+
 
 function polyshow(p, np)
     if length(np) == 0
@@ -60,7 +52,45 @@ function polyshow(p, np)
     
     return P
 end
+#=
+function fotfshow(G, key)
+    strN = polyshow(G.num, G.nn)
+    str = strN
+    strD = polyshow(G.den, G.nd)
+    nn = length(strN)
+    ns=0
 
+    if nn == 1 && strN == "0"
+        if key == 0
+            show(strN)
+        end
+    else
+        ns == length(strD)
+        nm = max(nn, ns)
+        if key == 0
+            show(" "^Int64(floor((nm-nn)/2))*"$(strN)")
+        end
+        ss=[]
+        T=G.ioDelay
+        if T > 0
+            ss="exp(-$(T)*s)"
+        end
+        if cmp(strD, "1") !=0
+            if T>0
+                str="("*"$str"*")*"*"$(ss)"*"/("*"$strD"
+            else
+                str="("*"$str"*")/("*"$strD"*")"
+            end
+            str=replace(replace(str, "{"=>""), "}"=>"")
+            if key == 0
+                show("-"^nm*"$ss")
+                show(" "^Int64(floor((nm-ns)/2))*"$strD")
+            end
+        end
+    end
+    show(str)
+end
+=#
 
 # Handling the signs of the polynomials's coefficients
 function showsign(a)
