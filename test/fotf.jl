@@ -57,3 +57,8 @@ end
     a = fotf([1, 2], [1, 2], [1, 2], [1, 2])
     @test freqresp([1; 2; 3], a) == [1.0; 1.0; 1.0]
 end
+
+@testset "Test polyshow" begin
+    @test polyshow([1, 2], [1, 2]) == "2s^{2}+s"
+    @test polyshow([1, -2], [0, 2.2]) == "-2s^{2.2}+1"
+end
