@@ -35,6 +35,10 @@ function Base.show(io::IO, G::FOTF)
     end
 end
 
+function polyshow(p, np)
+    
+end
+
 
 # Handling the signs of the polynomials's coefficients
 function showsign(a)

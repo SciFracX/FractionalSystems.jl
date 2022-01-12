@@ -13,13 +13,13 @@ FractionalSystems.jl is a Julia package aiming at providing support for fraction
 To install FractionalCalculus, please open Julia REPL and press ```]``` key to use package mode and then type the following command:
 
 ```julia-repl
-Pkg> add FractionalSystems
+pkg> add FractionalSystems
 ```
 
 Or if you want to experience the latest version of FractionalSystems.jl:
 
 ```julia-repl
-Pkg> add FractionalSystems#master
+pkg> add FractionalSystems#master
 ```
 
 ## Motivation

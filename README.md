@@ -41,13 +41,13 @@ FractionalSystems.jl is a Julia toolbox can be used to model and analyse the fra
 To add the FractionalSystems.jl, using the Julia package manager:
 
 ```julia
-Pkg> add FractionalSystems
+pkg> add FractionalSystems
 ```
 
 Or if you want to experience the latest version of FractionalSystems.jl:
 
 ```julia
-Pkg> add FractionalSystems#master
+pkg> add FractionalSystems#master
 ```
 
 ## Notice
