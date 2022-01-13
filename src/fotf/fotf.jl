@@ -1,4 +1,4 @@
-import Base: +, -, *, \, ==
+import Base: +, -, *, \, ==, inv
 import Base: size
 import Base: print, show
 
@@ -193,11 +193,32 @@ function sisotimes(G1::FOTF, G2::FOTF)
     G = simplify(fotf(b, nb, a, na, G1.ioDelay+G2.ioDelay))
     return G
 end
+
+# Not done
 function ==(G1::FOTF, G2::FOTF)
-    key=0
-    G=G1-G2
-    b=G.num
-    key=key+(length(b))
+    key = 0
+    G = G1-G2
+    b = G.num
+    key = key+(length(b))
+end
+
+#Not done
+function inv(G::FOTF)
+    (a, na, b, nb, L) = fotfdata(G)
+    L > 0 ? error("Delay term is not allowed in inversion operation.") : nothing
+
+    G1=G
+    dd=b[1]
+    G1.num=a/dd
+    G1.den=b/dd
+    G1.nd=nb
+    G1.nn=na
+end
+
+function fotfinv(G::FOTF)
+    A1=G
+    
+    # do i need to set FOTF object as mutable?
 end
 
 
@@ -262,11 +283,7 @@ function base_order(G::FOTF)
     nume = Int64[]
     denume = Int64[]
     for (_, i) in enumerate(a)
-        if isa(i, Int64)
-            continue
-        else
-            i = rationalize(i)
-        end
+        isa(i, Int64) ? continue : i = rationalize(i)
         push!(nume, numerator(i))
         push!(denume, denominator(i))
     end
@@ -276,7 +293,7 @@ end
 """
     fotfdata(G)
 
-Get the data from FOTF object
+Get the data from an FOTF object
 
 ### Example
 
@@ -317,9 +334,5 @@ end
 function Base.iszero(G::FOTF)
     (a, na, b, nb) = fotfdata(G)
 
-    if length(nb) == 1 & abs(b[1]) < eps()
-        return true
-    else
-        return false
-    end
+    length(nb) == 1 & abs(b[1]) < eps() ? true : false
 end
