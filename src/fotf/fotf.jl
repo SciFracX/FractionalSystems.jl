@@ -5,7 +5,9 @@ import Base: print, show
 
 abstract type AbstractFOTransferFunction end
 
-
+"""
+FOTF object
+"""
 struct FOTF <: AbstractFOTransferFunction
     num
     nn
@@ -42,6 +44,8 @@ function fotf(a, na, b, nb)
     return FOTF(a, na, b, nb, 0)
 end
 
+fotf(x) = x
+
 #FIXME: size()
 function size(tf::FOTF)
     return size(tf.num)
@@ -62,16 +66,6 @@ Addition operation of two fractional order model.
 
 """
 function +(G1::FOTF, G2::FOTF)
-    G = sisoplus(G1, G2)
-    return G
-end
-
-"""
-    sisoplus(G1, G2)
-
-Addition operation of two single-input-single-output FOTF.
-"""
-function sisoplus(G1::FOTF, G2::FOTF)
     if iszero(G2)
         return G1
     elseif G1.ioDelay == G2.ioDelay
@@ -84,8 +78,8 @@ function sisoplus(G1::FOTF, G2::FOTF)
             if a1 == a2 && na1 == na2
                 a=a1
                 na=na1
-                b=[b1; b2]
-                nb=[nb1; nb2]
+                b=[b1 b2]
+                nb=[nb1 nb2]
                 key=1
             end
         end
@@ -95,9 +89,9 @@ function sisoplus(G1::FOTF, G2::FOTF)
             na = kronsum(na1, na2)
             b = [kron(a1, b2); kron(b1, a2)]
             nb = [kronsum(na1, nb2); kronsum(nb1, na2)]
-        end
+        end# Here the a, na, b, nb should be vector, instead of matrix here.
 
-        G = fotf( b, nb, a, na)
+        G = fotf(b, nb, a, na)
         return G
     end
 end
@@ -186,9 +180,19 @@ function *(G1::FOTF, G2::FOTF)
 end
 
 function sisotimes(G1::FOTF, G2::FOTF)
-
+    (a1, na1, b1, nb1) = fotfdata(G1)
+    (a2, na2, b2, nb2) = fotfdata(G2)
+    a = kron(a1, a2)
+    na = kronsum(na1, na2)
+    b = kron(b1, b2)
+    nb = kronsum(nb1, nb2)
+    a=a[:]
+    na=na[:]
+    b=b[:]
+    nb=nb[:]
+    G = simplify(fotf(b, nb, a, na, G1.ioDelay+G2.ioDelay))
+    return G
 end
-
 function ==(G1::FOTF, G2::FOTF)
     key=0
     G=G1-G2

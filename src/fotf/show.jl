@@ -1,13 +1,13 @@
 Base.print(G::FOTF) = show(G)
 
-function Base.show(G::FOTF)
+function Base.show(io::IO, G::FOTF)
     println(typeof(G))
     print("\n")
     numstr = polyshow(G.num, G.nn)
-    denstr = polyshow(G.den, G.nn)
+    denstr = polyshow(G.den, G.nd)
     print(numstr)
     print("\n")
-    maxlengthstr=length(max(numstr, denstr))
+    maxlengthstr = max(length(numstr), length(denstr))
     G.ioDelay == 0 ? println("-"^maxlengthstr) : println("-"^maxlengthstr*" exp($(G.ioDelay)*s)")
     print(denstr)
 end
