@@ -8,7 +8,7 @@ abstract type AbstractFOTransferFunction end
 """
 FOTF object
 """
-struct FOTF <: AbstractFOTransferFunction
+mutable struct FOTF <: AbstractFOTransferFunction
     num
     nn
     den
@@ -207,12 +207,15 @@ function inv(G::FOTF)
     (a, na, b, nb, L) = fotfdata(G)
     L > 0 ? error("Delay term is not allowed in inversion operation.") : nothing
 
-    G1=G
+    G1 = fotf(a, na, b, nb, L)
     dd=b[1]
     G1.num=a/dd
     G1.den=b/dd
     G1.nd=nb
     G1.nn=na
+
+    return simplify(G1)
+
 end
 
 function fotfinv(G::FOTF)
