@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Conversation · FractionalSystems.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link rel="canonical" href="https://SciFracX.github.io/FractionalSystems.jl/conversation/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script><link href="../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.svg" alt="FractionalSystems.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">FractionalSystems.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">FractionalSystems.jl</a></li><li><a class="tocitem" href="../get_started/">Get Started</a></li><li><a class="tocitem" href="../rlocus/">Root Locus</a></li><li><a class="tocitem" href="../frequency/">Frequency Analysis</a></li><li class="is-active"><a class="tocitem" href>Conversation</a><ul class="internal"><li><a class="tocitem" href="#Conversation-between-Transfer-Function"><span>Conversation between Transfer Function</span></a></li><li><a class="tocitem" href="#Conversation-between-State-Space"><span>Conversation between State Space</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Conversation</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Conversation</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/SciFracX/FractionalSystems.jl/blob/master/docs/src/conversation.md#" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Conversation-with-ControlSystems.jl"><a class="docs-heading-anchor" href="#Conversation-with-ControlSystems.jl">Conversation with ControlSystems.jl</a><a id="Conversation-with-ControlSystems.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Conversation-with-ControlSystems.jl" title="Permalink"></a></h1><p>While Fractional systems are generalization of integer order control systems, so it is also convenient to transform between FractionalSystems.jl and ControlSystems.jl.</p><h2 id="Conversation-between-Transfer-Function"><a class="docs-heading-anchor" href="#Conversation-between-Transfer-Function">Conversation between Transfer Function</a><a id="Conversation-between-Transfer-Function-1"></a><a class="docs-heading-anchor-permalink" href="#Conversation-between-Transfer-Function" title="Permalink"></a></h2><p>To achieve the translation of <code>Transfer Function</code> and <code>Fractional Order Transfer Function</code>,  we only need to use the command <strong>fotf2cotf</strong> to transform the fractional order transfer function to integer order transfer function:</p><pre><code class="language-julia-repl hljs">julia&gt; G = fotf([1, 2, 3], [0.1, 0.2, 0.34], [4, 5, 6], [0.65, 0.67, 0.78])
+FOTF
+
+s^{0.1} + 2s^{0.2} + 3s^{0.34}
+---------------------
+4s^{0.65} + 5s^{0.67} + 6s^{0.78}
+
+julia&gt; fotf2cotf(G)
+TransferFunction{Continuous, ControlSystems.SisoRational{Float64}}        
+3.0s^34 + 2.0s^20 + 1.0s^10
+---------------------------
+6.0s^78 + 5.0s^67 + 4.0s^65
+
+Continuous-time transfer function model</code></pre><h2 id="Conversation-between-State-Space"><a class="docs-heading-anchor" href="#Conversation-between-State-Space">Conversation between State Space</a><a id="Conversation-between-State-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Conversation-between-State-Space" title="Permalink"></a></h2><p>To transform the fractional order state space to integer state space, we can use the <strong>foss2ss</strong> function:</p><pre><code class="language-julia-repl hljs">julia&gt; s = foss([-5 0; 0 -5], [2; 2], [3 3],[0], 0.5, 2, [2], 2)
+FOSS
+
+A =
+ -5   0
+  0  -5
+B =
+ 2
+ 2
+C =
+ 3  3
+D =
+ 0
+
+Descriptor matrix:
+
+E =
+[2]
+
+Time delay is 2
+α = 0.5
+Initial state vector x₀ = 2
+
+julia&gt; foss2ss(s)
+StateSpace{Continuous, Int64}
+A = 
+ -5   0
+  0  -5
+B =
+ 2
+ 2
+C =
+ 3  3
+D =
+ 0
+
+Continuous-time state-space model</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../frequency/">« Frequency Analysis</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Saturday 15 January 2022 08:27">Saturday 15 January 2022</span>. Using Julia version 1.7.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
