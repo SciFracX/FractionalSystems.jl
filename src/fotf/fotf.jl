@@ -348,7 +348,22 @@ end
 
 function isstable(G::FOTF)
     a0=0.001
+    g=G
     a=g.nd
     a1=floor.(a./a0)
     g1= fotf2cotf(G)
+    α = base_order(G)
+    c = denvec(g1)[1]
+    p0 = roots(c)# Need to verify
+    kk=[]
+
+    for k=1:length(p0)
+        a=g.den
+        na=g.nd
+        pa=p0[k]^(1/α)
+        if norm(a*(pa.^na)) < 1e-6
+            push!(kk,k)
+        end
+        
+    end
 end
