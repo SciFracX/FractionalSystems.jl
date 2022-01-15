@@ -90,9 +90,12 @@ function +(G1::FOTF, G2::FOTF)
             b = [kron(a1, b2); kron(b1, a2)]
             nb = [kronsum(na1, nb2); kronsum(nb1, na2)]
         end# Here the a, na, b, nb should be vector, instead of matrix here.
-
+        a=a[:]
+        na=na[:]
+        b=b[:]
+        nb=nb[:]
         G = fotf(b, nb, a, na)
-        return G
+        return simplify(G)
     end
 end
 
@@ -202,7 +205,9 @@ function ==(G1::FOTF, G2::FOTF)
     key = key+(length(b))
 end
 
-#Not done
+"""
+The inversion of an FOTF object
+"""
 function inv(G::FOTF)
     (a, na, b, nb, L) = fotfdata(G)
     L > 0 ? error("Delay term is not allowed in inversion operation.") : nothing
@@ -218,12 +223,13 @@ function inv(G::FOTF)
 
 end
 
+#=
 function fotfinv(G::FOTF)
     A1=G
     
     # do i need to set FOTF object as mutable?
 end
-
+=#
 
 """
     fotf2cotf(tf)
@@ -338,4 +344,12 @@ function Base.iszero(G::FOTF)
     (a, na, b, nb) = fotfdata(G)
 
     length(nb) == 1 & abs(b[1]) < eps() ? true : false
+end
+
+function isstable(G::FOTF)
+    a0=0.001
+    a=g.nd
+    a1=floor.(a./a0)
+    [g1, α] = fotf2cotf(G)
+    c=g1.
 end
