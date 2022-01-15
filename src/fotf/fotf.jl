@@ -350,6 +350,5 @@ function isstable(G::FOTF)
     a0=0.001
     a=g.nd
     a1=floor.(a./a0)
-    [g1, α] = fotf2cotf(G)
-    c=g1.
+    g1= fotf2cotf(G)
 end
