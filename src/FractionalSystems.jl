@@ -1,10 +1,11 @@
 module FractionalSystems
 
-using ControlSystems
+using ControlSystems, LinearAlgebra
 
 include("foss/foss.jl")
 
 include("fotf/fotf.jl")
+include("fotf/operations.jl")
 include("fotf/show.jl")
 include("fotf/rlocus.jl")
 include("fotf/freqresp.jl")
