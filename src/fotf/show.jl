@@ -8,7 +8,7 @@ function Base.show(io::IO, G::FOTF)
     print(numstr)
     print("\n")
     maxlengthstr = max(length(numstr), length(denstr))
-    G.ioDelay == 0 ? println("-"^maxlengthstr) : println("-"^maxlengthstr*" exp($(G.ioDelay)*s)")
+    G.ioDelay == 0 ? println("-"^maxlengthstr) : println("-"^maxlengthstr*" exp(-$(G.ioDelay)*s)")
     print(denstr)
 end
 
