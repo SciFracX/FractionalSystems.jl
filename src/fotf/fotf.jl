@@ -1,4 +1,4 @@
-import Base: +, -, *, \, ==, inv
+import Base: +, -, *, /, ==, inv
 import Base: size
 import Base: print, show
 
@@ -379,4 +379,12 @@ function inv(G::FOTF)
     G1.nn = na
 
     return simplify(G1)
+end
+
+
+"""
+The division of two FOTF objects
+"""
+function /(G1::FOTF, G2::FOTF)
+    G1.ioDelay == 0 && G2.ioDelay == 0 ? G1*inv(G2) : nothing
 end
