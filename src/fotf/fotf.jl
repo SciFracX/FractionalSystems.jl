@@ -388,3 +388,7 @@ The division of two FOTF objects
 function /(G1::FOTF, G2::FOTF)
     G1.ioDelay == 0 && G2.ioDelay == 0 ? G1*inv(G2) : nothing
 end
+
+function /(x::Int64, G2::FOTF)
+    return x*inv(G2)
+end
