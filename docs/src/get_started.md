@@ -24,6 +24,50 @@ julia> a+b
           2s^{1} + 1s^{0}
 ```
 
+### Basic arithmetic operations
+
+In FractionalSysetms.jl we can perform basic arithmetic operations on fractional order transfer functions:
+
+    * Addition
+    * Subtraction
+    * Multiplication
+    * Division
+
+```julia-repl
+julia> a = fotf([1, 2], [0.3, 0.4], [3, 4], [0.5, 0.6])
+FOTF
+
+2s^{0.4}+s^{0.3}
+-----------------
+4s^{0.6}+3s^{0.5}
+julia> b=fotf([1, 2], [0.3, 0.4], [2, 3], [0.4, 0.5])
+FOTF
+
+2s^{0.4}+s^{0.3}
+-----------------
+3s^{0.5}+2s^{0.4}
+
+julia> a+b
+FOTF
+
+8s^{0.3}+16s^{0.2}+10s^{0.10000000000000003}+2
+----------------------------------------------
+12s^{0.39999999999999997}+17s^{0.3}+6s^{0.2}
+
+julia> a-b
+-8s^{0.3}-4s^{0.2}+4s^{0.10000000000000003}+2
+---------------------------------------------
+12s^{0.39999999999999997}+17s^{0.3}+6s^{0.2}
+
+julia> a*b
+FOTF
+
+4s^{0.20000000000000007}+4s^{0.09999999999999998}+1
+-----------------------------------------------------------
+12s^{0.5000000000000001}+17s^{0.4}+6s^{0.30000000000000004}
+```
+
+
 ## Fractional order state space
 
 In FractionalSystems.jl, it is easy to create a fractional order state space:
