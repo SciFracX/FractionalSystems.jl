@@ -51,7 +51,11 @@ end
     @test a+b == aplusb
 end
 =#
-
+#=
+@testset "Test inv operation" begin
+    
+end
+=#
 
 @testset "Test freqresp" begin
     a = fotf([1, 2], [1, 2], [1, 2], [1, 2])
