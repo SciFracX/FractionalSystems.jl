@@ -7,3 +7,6 @@ In FractionalSystems.jl, it is also easy to transform the system to frequency do
 ```julia-repl
 julia> 
 ```
+
+!!! tip
+    In Julia, there are no ```logspace(a, b)``` API, we can use ```exp10.(range(a, b, length=50))``` instead.
