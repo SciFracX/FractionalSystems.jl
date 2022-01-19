@@ -21,7 +21,7 @@ end
 
 function minreal(G::FOSS)
     α = G.α
-    G2 = fossdata(G)
+    G2 = foss2ss(G)
     G2 = minreal(G2)
 end
 

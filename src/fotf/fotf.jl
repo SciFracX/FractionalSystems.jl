@@ -331,7 +331,7 @@ function -(G1::FOTF, G2::FOTF)
     return G
 end
 
--(G::FOTF)=fotf(-G.num, G.nn, G.den, G.nd)
+-(G::FOTF) = fotf(-G.num, G.nn, G.den, G.nd)
 
 
 function *(G1::FOTF, G2::FOTF)
@@ -339,13 +339,9 @@ function *(G1::FOTF, G2::FOTF)
     return G
 end
 
-function *(x::Number, G::FOTF)
-    return fotf(x*G.num, G.nn, G.den, G.nd, G.ioDelay)
-end
+*(x::Number, G::FOTF) = fotf(x*G.num, G.nn, G.den, G.nd, G.ioDelay)
 
-function *(G::FOTF, x::Number)
-    return fotf(x*G.num, G.nn, G.den, G.nd, G.ioDelay)
-end
+*(G::FOTF, x::Number) = *(x::Number, G::FOTF)
 
 function sisotimes(G1::FOTF, G2::FOTF)
     (a1, na1, b1, nb1) = fotfdata(G1)
@@ -362,8 +358,7 @@ function sisotimes(G1::FOTF, G2::FOTF)
     return G
 end
 
-
-# Not done
+# Equality judgement
 function ==(G1::FOTF, G2::FOTF)
     key = 0
     G = G1-G2
@@ -393,14 +388,8 @@ end
 """
 The division of two FOTF objects
 """
-function /(G1::FOTF, G2::FOTF)
-    G1.ioDelay == 0 && G2.ioDelay == 0 ? G1*inv(G2) : nothing
-end
+/(G1::FOTF, G2::FOTF) = G1.ioDelay == 0 && G2.ioDelay == 0 ? G1*inv(G2) : nothing
 
-function /(x::Number, G2::FOTF)
-    return x*inv(G2)
-end
+/(x::Number, G2::FOTF) = x*inv(G2)
 
-function /(G::FOTF, x::Number)
-    return G*inv(x)
-end
+/(G::FOTF, x::Number) = G*inv(x)
