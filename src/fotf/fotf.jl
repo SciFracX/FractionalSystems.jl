@@ -339,6 +339,14 @@ function *(G1::FOTF, G2::FOTF)
     return G
 end
 
+function *(x::Number, G::FOTF)
+    return fotf(x*G.num, G.nn, G.den, G.nd, G.ioDelay)
+end
+
+function *(G::FOTF, x::Number)
+    return fotf(x*G.num, G.nn, G.den, G.nd, G.ioDelay)
+end
+
 function sisotimes(G1::FOTF, G2::FOTF)
     (a1, na1, b1, nb1) = fotfdata(G1)
     (a2, na2, b2, nb2) = fotfdata(G2)
@@ -391,4 +399,8 @@ end
 
 function /(x::Int64, G2::FOTF)
     return x*inv(G2)
+end
+
+function /(G::FOTF, x::Number)
+    return G*inv(x)
 end
