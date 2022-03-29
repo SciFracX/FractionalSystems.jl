@@ -16,12 +16,6 @@ To install FractionalCalculus, please open Julia REPL and press ```]``` key to u
 pkg> add FractionalSystems
 ```
 
-Or if you want to experience the latest version of FractionalSystems.jl:
-
-```julia-repl
-pkg> add FractionalSystems#master
-```
-
 ## Motivation
 
 Why we create the FractionalSystems.jl?

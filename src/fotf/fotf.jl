@@ -40,11 +40,12 @@ function fotf(a, na, b, nb, T)
     return FOTF(a, na, b, nb, T)
 end
 
-function fotf(a, na, b, nb)
-    return FOTF(a, na, b, nb, 0)
-end
+fotf(a, na, b, nb) = FOTF(a, na, b, nb, 0)
 
-fotf(x) = x
+fotf(s::String) = s == "s" ? (return fotf([1], [1], [1], [0], 0)) : (nothing)
+fotf(c::Char) = c == 's' ? (return fotf([1], [1], [1], [0], 0)) : (nothing)
+
+fotf(x::Number) = x
 
 #FIXME: size()
 function size(tf::FOTF)

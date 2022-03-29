@@ -13,6 +13,12 @@ s^{0.3} + 2s^{0.4}
 s^{0.5} + 2s^{0.6}
 ```
 
+Or simply by passing the strings to the definition of fotf:
+
+```julia
+julia> fotf("s")
+```
+
 ### Basic arithmetic operations
 
 In FractionalSysetms.jl we can perform basic arithmetic operations on fractional order transfer functions:
