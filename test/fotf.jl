@@ -7,6 +7,7 @@ using Test
     @test isa(a, FOTF)
     @test fotfdata(a) == ([1, 2], [1, 2], [1, 2], [1, 2], 0)
     @test iszero(a) == false
+    @test fotf("s") == fotf([1], [1], [1], [0], 0)
 end
 
 G = fotf([1, 2, 3], [0.1, 0.2, 0.34], [4, 5, 6], [0.65, 0.67, 0.78])
