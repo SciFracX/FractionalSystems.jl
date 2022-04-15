@@ -36,8 +36,6 @@
 
 FractionalSystems.jl is a Julia toolbox can be used to model and analyse the fractional order systems.
 
-🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️WIP🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
-
 ## Get Started
 
 To add the FractionalSystems.jl, using the Julia package manager:
@@ -51,6 +49,55 @@ Or if you want to experience the latest version of FractionalSystems.jl:
 ```julia
 pkg> add FractionalSystems#master
 ```
+
+### Basic FOTF and FOSS
+
+Fractional order transfer functions and fractional order state space are the basic elements in fractional control system, it is esay to create them in FractionalSystems.jl:
+
+```julia
+julia> tf = fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
+FOTF
+
+s^{0.3} + 2s^{0.4}
+------------------ exp(-2*s)     
+s^{0.5} + 2s^{0.6}
+```
+
+```julia
+julia> sys = foss([-5 0; 0 -5],[2; 2],[3 3],[0], 0.5, 1, 1, 1)
+FOSS
+
+A =
+ -5   0
+  0  -5
+B =
+ 2
+ 2
+C =
+ 3  3
+D =
+ 0
+
+Descriptor matrix:
+
+E =
+1
+
+Time delay is 1
+α = 0.5
+Initial state vector x₀ = 1
+```
+
+## Analyzing methods
+
+To see the root locus of an fractional order system:
+
+```julia
+G = fotf([1], [0], [1, 10, 35, 50, 24], [3.5, 2.8, 2.1, 1.4, 0.7])
+rlocus(G)
+```
+
+![rlocus](examples/rlocusexample.png)
 
 ## Notice
 
