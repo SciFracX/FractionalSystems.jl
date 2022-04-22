@@ -44,21 +44,12 @@ fotf(a, na, b, nb) = FOTF(a, na, b, nb, 0)
 
 fotf(s::String) = s == "s" ? (return fotf([1], [1], [1], [0], 0)) : (nothing)
 fotf(c::Char) = c == 's' ? (return fotf([1], [1], [1], [0], 0)) : (nothing)
-
 fotf(x::Number) = x
 
 #FIXME: size()
 function size(tf::FOTF)
     return size(tf.num)
 end
-
-"""
-Test two FOTF are  equal or not.
-"""
-#=function ==(G1::FOTF, G2::FOTF)
-
-end
-=#
 
 
 function simplify(G::FOTF)
@@ -131,17 +122,6 @@ kronsum(A, B) = A .+ B
 
 
 
-
-
-
-
-#=
-function fotfinv(G::FOTF)
-    A1=G
-    
-    # do i need to set FOTF object as mutable?
-end
-=#
 
 """
     fotf2cotf(tf)
@@ -360,6 +340,9 @@ function sisotimes(G1::FOTF, G2::FOTF)
 end
 
 # Equality judgement
+"""
+Test two FOTF are  equal or not.
+"""
 function ==(G1::FOTF, G2::FOTF)
     key = 0
     G = G1-G2
