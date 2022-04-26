@@ -18,9 +18,13 @@ function ControlSystems.freqresp(s, G::FOTF)
         #H1[k] = P/Q
         push!(H1, P/Q)
     end
-    
+
     if L>0
-        H1 = H1.*exp.(L*s)
+        H1 = H1.*exp.(-L*s)
     end
     return H1
 end
+#=
+a=fotf([1, 2], [0.3, 0.4], [1, 2], [0.5, 0.6], 2)
+freq=myfreqresp(collect(0:0.1:4).*im, a)
+=#

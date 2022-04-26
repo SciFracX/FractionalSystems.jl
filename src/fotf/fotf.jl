@@ -309,6 +309,9 @@ Minus operation of FOTF
 """
 function -(G1::FOTF, G2::FOTF)
     G = G1+(-G2)
+    if typeof(G) <: Nothing
+        return 0
+    end
     return G
 end
 
@@ -346,6 +349,9 @@ Test two FOTF are  equal or not.
 function ==(G1::FOTF, G2::FOTF)
     key = 0
     G = G1-G2
+    if typeof(G) == Nothing
+        return true
+    end
     b = G.num
     key = key + (length(b)==1 && b[1]==0)
     key == 0 ? false : true

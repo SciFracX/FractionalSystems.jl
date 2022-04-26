@@ -1,6 +1,6 @@
 # Root Locus
 
-Root locus is an important analysis method in systems, we can use the root locus to judge whether the system is stable or not, it is also very convienent to draw root locus in FractionalSystems.jl:
+Root locus is an important analysis method in systems, we can use the root locus to judge whether the system is stable or not, it is also very convienent to draw root locus plot with FractionalSystems.jl:
 
 Let's see if we have a fractional order transfer function model:
 

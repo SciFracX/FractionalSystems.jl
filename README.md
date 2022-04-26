@@ -44,12 +44,6 @@ To add the FractionalSystems.jl, using the Julia package manager:
 pkg> add FractionalSystems
 ```
 
-Or if you want to experience the latest version of FractionalSystems.jl:
-
-```julia
-pkg> add FractionalSystems#master
-```
-
 ### Basic FOTF and FOSS
 
 Fractional order transfer functions and fractional order state space are the basic elements in fractional control system, it is esay to create them in FractionalSystems.jl:
@@ -90,17 +84,17 @@ Initial state vector x₀ = 1
 
 ## Analyzing methods
 
-To see the root locus of an fractional order system:
+To see the root locus of a fractional order system:
 
 ```julia
-G = fotf([1], [0], [1, 10, 35, 50, 24], [3.5, 2.8, 2.1, 1.4, 0.7])
-rlocus(G)
+julia> G = fotf([1], [0], [1, 10, 35, 50, 24], [3.5, 2.8, 2.1, 1.4, 0.7])
+julia> rlocus(G)
 ```
 
 ![rlocus](examples/rlocusexample.png)
 
 ## Notice
 
-The FractionalSystems.jl can be seen as the combination of [FOTF](https://www.mathworks.com/matlabcentral/fileexchange/60874-fotf-toolbox) and [FOMCON](https://fomcon.net/)
+The FractionalSystems.jl can be seen as the combination of [FOTF](https://www.mathworks.com/matlabcentral/fileexchange/60874-fotf-toolbox), [FOMCON](https://fomcon.net/) and [ControlSystems.jl](https://github.com/JuliaControl/ControlSystems.jl)
 
 We are working hard on FractionalSystems.jl to provide performant features as much as possible, if you are interested, don't hesitate to get in touch:)

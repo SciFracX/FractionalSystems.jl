@@ -1,19 +1,29 @@
-using ControlSystems
+using ControlSystems, ControlSystemIdentification
 
-function ControlSystems.bode(G)
-    # Julia replace `logspace` as `exp10.(range(start, stop=stop, length=50))`
-    w = exp10.(range(1, 3, length=50))
+logspace(a, b) = exp10.(LinRange(a, b, 50))
+
+"""
+    bodeplot(G::FOTF)
+
+Generate the bode plot of a given FOTF object.
+"""
+function ControlSystems.bodeplot(G::FOTF, w = exp10.(logspace(-4, 4)))
     H1 = freqresp(w.*im, G)
-    #H1 = ControlSystems.bode(H1, w)
-    ControlSystems.bodeplot(H1)
+    result = zeros(ComplexF64, 1, 1, length(w))
+    result[1, 1, :] = H1[:]
+    H1 = FRD(w, result) # Frequency response data model here
+    plot(H1)
 end
 
+"""
+    bode(G::FOTF)
 
-#=
-function ControlSystems.bode(G, w)
+The frequency response data model of a given FOTF object.
+"""
+function ControlSystems.bode(G::FOTF, w = exp10.(logspace(-4, 4)))
     H1 = freqresp(w.*im, G)
-    H1 = ControlSystems.freqresp(H1, w)
-    H1 = ControlSystems.bode(H1, w)
-    ControlSystems.bodeplot(H1)
+    result = zeros(ComplexF64, 1, 1, length(w))
+    result[1, 1, :] .= H1[:]
+    H1 = FRD(H1, w) # Frequency response data model here
+    return H1
 end
-=#

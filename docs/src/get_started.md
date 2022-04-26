@@ -72,10 +72,10 @@ FOTF
 
 ## Fractional order state space
 
-In FractionalSystems.jl, it is easy to create a fractional order state space:
+In FractionalSystems.jl, it is easy to create fractional order state space:
 
 ```julia-repl
-julia> sys = foss([-5 0; 0 -5],[2; 2],[3 3],[0], 0.5, 1, 1, 1)
+julia> sys = foss([-5 0; 0 -5], [2; 2], [3 3], [0], 0.5, 1, 1, 1)
 FOSS
 
 A =
