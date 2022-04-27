@@ -12,3 +12,11 @@ The ```freqresp``` function return the frequency response of the fractional orde
 
 !!! tip "```logspace``` substitute"
     In Julia, there are no ```logspace(a, b)``` API, we can use ```exp10.(range(a, b, length=50))``` instead.
+
+## Bode plot
+
+To generate a bode plot of a FOTF object, we can directly use ```bodeplot(g::FOTF)``` to analysis the frequency properties of the FOTF:
+
+```julia
+julia> bodeplot(G)
+```

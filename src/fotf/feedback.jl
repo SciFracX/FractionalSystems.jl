@@ -3,7 +3,19 @@ import ControlSystems.feedback
 """
     feedback(G1::FOTF, G2::FOTF)
 
-Two FOTF in feedback connection.
+Two FOTFs in feedback connection.
+
+```
+           ┌──────────────┐
+◄──────────┤     sys1     │◄──── Σ ◄──────
+    │      │              │      │
+    │      └──────────────┘      -1
+    │                            |
+    │      ┌──────────────┐      │
+    └─────►│     sys2     ├──────┘
+           │              │
+           └──────────────┘
+```
 """
 function ControlSystems.feedback(G1::FOTF, G2::FOTF)
     if G1.ioDelay == G2.ioDelay
