@@ -11,9 +11,7 @@ mutable struct FOSS <: AbstractFOStateSpace
     x0
 end
 
-function foss(a, b, c, d, α, L, E, x0)
-    return FOSS(a, b, c, d, α, L, E, x0)
-end
+foss(a, b, c, d, α, L, E, x0) =  FOSS(a, b, c, d, α, L, E, x0)
 
 function fossdata(sys::FOSS)
     return [sys.a sys.b sys.c sys.d sys.E sys.ioDelay sys.x0 sys.α]
@@ -56,3 +54,17 @@ function Base.show(io::IO, sys::FOSS)
     println("α = $(sys.α)")
     println("Initial state vector x₀ = $(sys.x0)")
 end
+
+"""
+    ctrb(G::FOSS)
+
+Controllability test matrix for FOSS
+"""
+ctrb(G::FOSS) = ControlSystems.ctrb(G.a, G.b)
+
+"""
+    obsv(G::FOSS)
+
+Observability test matrix for FOSS
+"""
+obsv(G::FOSS) = ControlSystems.obsv(G.a, G.c)
