@@ -9,6 +9,8 @@ include("fotf/show.jl")
 include("fotf/rlocus.jl")
 include("fotf/freqresp.jl")
 
+include("FOLE.jl")
+
 export FOTF, fotf, fotfdata, base_order, fotf2cotf, rlocus, polyuniq, simplify, freqresp
 
 export polyshow
