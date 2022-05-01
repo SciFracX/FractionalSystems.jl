@@ -29,98 +29,62 @@ function FOLyapunov(ne, ext_fcn, t_start, h_norm, t_end, x_start, h, q, out)# TO
     end
     t=t_start
     it=1
+    LExp=zeros(ne, 1)
+    for it=1:n_it
+        
+        (T, Y) = pc(q, ext_fcn, t, t+h_norm, x, h)
+        t=t+h_norm
+        Y = Y'
 
-    while it<=n_it
-            global LExp=zeros(ne, 1)
-            (T, Y) = pc(q, ext_fcn, t, t+h_norm, x, h)
-            t=t+h_norm
-            Y = Y'
-
-            x = Y[size(Y, 1), :]
-            i=1
-            while i<=ne
-                j=1
-                while j<=ne
-                    x0[ne*i+j]=x[ne*j+i]
-                    j=j+1
-                end
-                i += 1
+        x = Y[size(Y, 1), :]
+        for i=1:ne
+            for j=1:ne
+                x0[ne*i+j]=x[ne*j+i]
             end
-            zn[1]=0.0
-            j=1
-            while j<=ne
-                zn[1]=zn[1]+x0[ne*j+1]^2
-                j=j+1
-            end;
-            zn[1]=sqrt(zn[1])
-            j=1
-            while j<=ne
-                x0[ne*j+1]=x0[ne*j+1]/zn[1]
-                j=j+1
-            end
-            j=2
-            while j<=ne
-                k=1
-                while k<=j-1
-                    gsc[k]=0.0
-                    l=1
-                    while l<=ne
-                        gsc[k]=gsc[k]+x0[ne*l+j]*x0[ne*l+k]
-                        l=l+1
-                    end
-                    k=k+1
-                end
-                k=1
-                while k<=ne
-                    l=1
-                    while l<=j-1
-                        x0[ne*k+j]=x0[ne*k+j]-gsc[l]*x0[ne*k+l]
-                        l=l+1
-                    end
-                    k=k+1
-                end
-                zn[j]=0.0
-                k=1
-                while k<=ne
-                    zn[j]=zn[j]+x0[ne*k+j]^2
-                    k=k+1
-                end
-                zn[j]=sqrt(zn[j])
-                k=1
-                while k<=ne
-                    x0[ne*k+j]=x0[ne*k+j]/zn[j]
-                    k=k+1
-                end
-                j=j+1
-            end
-
-            k=1
-            while k<=ne
-                c[k]=c[k]+log(zn[k])
-                k=k+1
-            end
-
-            k=1
-            while k<=ne
-                LExp[k]=c[k]/(t-t_start)
-                k=k+1
-            end
-
-            if mod(it,out)==0
-                println(LExp)
-            end
-            i=1
-            while i<=ne
-                j=1
-                while j<=ne
-                    x[ne*j+i]=x0[ne*i+j]
-                    j=j+1
-                end
-                i=i+1
-            end
-            it=it+1
         end
-        return LExp
+        zn[1]=0.0
+        for j=1:ne
+            zn[1]=zn[1]+x0[ne*j+1]^2
+        end
+        zn[1]=sqrt(zn[1])
+        for j=1:ne
+            x0[ne*j+1]=x0[ne*j+1]/zn[1]
+        end
+        for j=2:ne
+            for k=1:(j-1)
+                gsc[k]=0.0
+                for l=1:ne
+                    gsc[k]=gsc[k]+x0[ne*l+j]*x0[ne*l+k]
+                end
+            end
+            for k=1:ne
+                for l=1:j-1
+                    x0[ne*k+j]=x0[ne*k+j]-gsc[l]*x0[ne*k+l]
+                end
+            end
+            zn[j]=0.0
+            for k=1:ne
+                zn[j]=zn[j]+x0[ne*k+j]^2
+            end
+            zn[j]=sqrt(zn[j])
+            for k=1:ne
+                x0[ne*k+j]=x0[ne*k+j]/zn[j]
+            end
+        end
+        for k=1:ne
+            c[k]=c[k]+log(zn[k])
+            LExp[k]=c[k]/(t-t_start)
+        end
+
+        mod(it, out)==0 ? println(LExp) : nothing
+
+        for i=1:ne
+            for j=1:ne
+                x[ne*j+i]=x0[ne*i+j]
+            end
+        end
+    end
+    return LExp
 end
 
 
@@ -452,4 +416,20 @@ function rowfft(x::AbstractMatrix, n)
     return result
 end
 
-
+#=
+function testtest!(t, u)
+    return [u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
+    u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
+    -2*u[3]*(0.98+u[1]*u[2]);
+    (2*u[1]*u[2]+0.1)*u[4] + (u[1]*u[1]+u[3]-1)*u[5] + u[2]*u[6];
+    (-3*u[1]*u[1]+3*u[3]+1)*u[4] + 0.1*u[5] + 3*u[1]*u[6];
+    (-2*u[2]*u[3])*u[4] + (-2*u[1]*u[3])*u[5] + (-2*(u[1]*u[2]+0.98))*u[6];
+    (2*u[1]*u[2]+0.1)*u[7] + (u[1]*u[1]+u[3]-1)*u[8] + u[2]*u[9];
+    (-3*u[1]*u[1]+3*u[3]+1)*u[7] + 0.1*u[8] + 3*u[1]*u[9];
+    (-2*u[2]*u[3])*u[7] + (-2*u[1]*u[3])*u[8] + (-2*(u[1]*u[2]+0.98))*u[9];
+    (2*u[1]*u[2]+0.1)*u[10] + (u[1]*u[1]+u[3]-1)*u[11] + u[2]*u[12];
+    (-3*u[1]*u[1]+3*u[3]+1)*u[10] + 0.1*u[11] + 3*u[1]*u[12];    
+    (-2*u[2]*u[3])*u[10] + (-2*u[1]*u[3])*u[11] + (-2*(u[1]*u[2]+0.98))*u[12]]
+end
+LE=FOLyapunov(3, testtest!, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 0.999*ones(12), 1000)
+=#
