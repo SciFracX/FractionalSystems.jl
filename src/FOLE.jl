@@ -1,7 +1,7 @@
 """
     FOLyapunov()
 
-Computing fractional order Lyapunov exponent of a fractionla order system.
+Computing fractional order Lyapunov exponent of a fractionl order system.
 
 ```tex
 @article{Danca2018MatlabCF,
@@ -14,26 +14,22 @@ Computing fractional order Lyapunov exponent of a fractionla order system.
 }
 ```
 """
-function FOLyapunov(ne, ext_fcn, t_start, h_norm, t_end, x_start, h, q, out)# TODO: Generate the Lyapunov exponent plot
-    x=zeros(ne*(ne+1))
-    x0=zeros(ne*(ne+1))
-    c=zeros(ne, 1)
-    gsc=copy(c)
-    zn=copy(c)
+function FOLyapunov(ne::Int64, ext_fcn, t_start, h_norm, t_end, x_start, h, q, out)# TODO: Generate the Lyapunov exponent plot
+    x = zeros(Float64, ne*(ne+1))
+    x0 = zeros(Float64, ne*(ne+1))
+    c = zeros(Float64, ne)
+    gsc = zeros(Float64, ne)
+    zn = zeros(Float64, ne)
     n_it = round(Int, (t_end-t_start)/h_norm)
     x[1:ne] = x_start
-    i=1
-    while i<=ne
+    for i=1:ne
         x[(ne+1)*i]=1.0
-        i=i+1
     end
-    t=t_start
-    it=1
-    LExp=zeros(ne, 1)
+    t = t_start
+    LExp = zeros(ne)
     for it=1:n_it
-        
-        (T, Y) = pc(q, ext_fcn, t, t+h_norm, x, h)
-        t=t+h_norm
+        (_, Y) = pc(q, ext_fcn, t, t+h_norm, x, h)
+        t = t+h_norm
         Y = Y'
 
         x = Y[size(Y, 1), :]
@@ -42,19 +38,19 @@ function FOLyapunov(ne, ext_fcn, t_start, h_norm, t_end, x_start, h, q, out)# TO
                 x0[ne*i+j]=x[ne*j+i]
             end
         end
-        zn[1]=0.0
+        zn[1] = 0.0
         for j=1:ne
-            zn[1]=zn[1]+x0[ne*j+1]^2
+            zn[1] = zn[1]+x0[ne*j+1]^2
         end
-        zn[1]=sqrt(zn[1])
+        zn[1] = sqrt(zn[1])
         for j=1:ne
-            x0[ne*j+1]=x0[ne*j+1]/zn[1]
+            x0[ne*j+1] = x0[ne*j+1]/zn[1]
         end
         for j=2:ne
             for k=1:(j-1)
-                gsc[k]=0.0
+                gsc[k] = 0.0
                 for l=1:ne
-                    gsc[k]=gsc[k]+x0[ne*l+j]*x0[ne*l+k]
+                    gsc[k] = gsc[k]+x0[ne*l+j]*x0[ne*l+k]
                 end
             end
             for k=1:ne
@@ -371,7 +367,7 @@ function f_vectorfield(t, y, f_fun!)
 end
 
 function  StartingTerm(t, y0, m_alpha, t0, m_alpha_factorial)
-    ys = zeros(size(y0, 1),1) ;
+    ys = zeros(size(y0, 1),1)
     for k = 1 : maximum(m_alpha)
         if length(m_alpha) == 1
             ys = ys + (t-t0)^(k-1)/m_alpha_factorial[k]*y0[:, k]
@@ -416,7 +412,7 @@ function rowfft(x::AbstractMatrix, n)
     return result
 end
 
-#=
+
 function testtest!(t, u)
     return [u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
     u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
@@ -432,4 +428,3 @@ function testtest!(t, u)
     (-2*u[2]*u[3])*u[10] + (-2*u[1]*u[3])*u[11] + (-2*(u[1]*u[2]+0.98))*u[12]]
 end
 LE=FOLyapunov(3, testtest!, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 0.999*ones(12), 1000)
-=#
