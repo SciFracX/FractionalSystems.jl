@@ -376,10 +376,13 @@ end
 
 
 """
-The division of two FOTF objects
+The right division of two FOTF objects
 """
 /(G1::FOTF, G2::FOTF) = G1.ioDelay == 0 && G2.ioDelay == 0 ? G1*inv(G2) : nothing
-
 /(x::Number, G2::FOTF) = x*inv(G2)
-
 /(G::FOTF, x::Number) = G*inv(x)
+
+"""
+The left division of two FOTF objects
+"""
+\(G1::FOTF, G2::FOTF) = G1.ioDelay == 0 && G2.ioDelay == 0 ? inv(G1)*G2 : nothing

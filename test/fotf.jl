@@ -42,16 +42,15 @@ end
 end
 =#
 
-#=
+
 @testset "Test basic operations" begin
     a=fotf([5, 6], [7, 8], [1, 2], [3, 4])
     b=fotf([1, 2], [1, 2], [1, 2], [1, 2])
 
     aplusb = fotf([1, 5, 2, 6], [5, 4, 1, 0], [1, 2], [0, 1])
-
     @test a+b == aplusb
 end
-=#
+
 #=
 @testset "Test inv operation" begin
     

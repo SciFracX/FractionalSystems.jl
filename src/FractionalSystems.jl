@@ -1,6 +1,6 @@
 module FractionalSystems
 
-using ControlSystems, LinearAlgebra, FractionalDiffEq
+using ControlSystems, LinearAlgebra, FractionalDiffEq, SpecialFunctions
 
 include("foss/foss.jl")
 
