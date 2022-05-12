@@ -13,21 +13,14 @@ D^{\alpha_3} z=-2z(\alpha+xy)
 
 ```julia
 using FractionalSystems
-function testtest!(t, u)
-    return [u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
-    u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
-    -2*u[3]*(0.98+u[1]*u[2]);
-    (2*u[1]*u[2]+0.1)*u[4] + (u[1]*u[1]+u[3]-1)*u[5] + u[2]*u[6];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[4] + 0.1*u[5] + 3*u[1]*u[6];
-    (-2*u[2]*u[3])*u[4] + (-2*u[1]*u[3])*u[5] + (-2*(u[1]*u[2]+0.98))*u[6];
-    (2*u[1]*u[2]+0.1)*u[7] + (u[1]*u[1]+u[3]-1)*u[8] + u[2]*u[9];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[7] + 0.1*u[8] + 3*u[1]*u[9];
-    (-2*u[2]*u[3])*u[7] + (-2*u[1]*u[3])*u[8] + (-2*(u[1]*u[2]+0.98))*u[9];
-    (2*u[1]*u[2]+0.1)*u[10] + (u[1]*u[1]+u[3]-1)*u[11] + u[2]*u[12];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[10] + 0.1*u[11] + 3*u[1]*u[12];    
-    (-2*u[2]*u[3])*u[10] + (-2*u[1]*u[3])*u[11] + (-2*(u[1]*u[2]+0.98))*u[12]]
+
+function RF(du, u, t)
+    du[1] = u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
+    du[2] = u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
+    du[3] = -2*u[3]*(0.98+u[1]*u[2]);
+    du
 end
-LE=FOLyapunov(3, testtest!, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 0.999*ones(12), 1000)
+LE, tspan = LE, tspan=FOLyapunov(RF, 0.98, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 1000)
 ```
 
 The output would be:
@@ -48,10 +41,6 @@ The output would be:
 [0.06705094763635554; -0.0015939955503458177; -1.8329059006298087]
 [0.059724759994251635; -0.0031386869537530426; -1.8240358860199872]
 [0.06111650166568285; 0.0038981396237095034; -1.8324646820425692]
-3×1 Matrix{Float64}:
-  0.06111650166568285
-  0.0038981396237095034
- -1.8324646820425692
 ```
 
 The computed **LE** is the Lyapunov exponent of this system.
@@ -63,3 +52,49 @@ julia> LE
   0.0038981396237095034
  -1.8324646820425692
 ```
+
+To visualize the Lyapunov exponent, what just need to plot our ```LE```:
+
+```julia
+plot(tspan, LE[1, :])
+plot!(tspan, LE[2, :])
+plot!(tspan, LE[3, :])
+```
+
+![RFLE](./assets/RFLE.png)
+
+## Another 4-D example:
+
+Let's see the Piece-Wise Continuous (PWC) fractional order system:
+
+```math
+D^{q} x_1=-x_1+x_2\\
+D^{q} x_2=-x_3\text{sgn}(x_1)+x_4\\
+D^{q} x_3=|x_1|-a\\
+D^{q} x_4=-bx_2
+```
+
+By following what we have done before, we can easily get the Lyapunov exponent of this PWC system.
+
+```julia
+using FractionalSystems, Plots
+
+function Danca(du, u, t)
+    du[1] = -u[1]+u[2]
+    du[2] = -u[3]*sign(u[1])+u[4]
+    du[3] = abs(u[1])-1
+    du[4] = -0.5*u[2]
+    du
+end
+
+LE, tspan=FOLyapunov(Danca, 0.98, 0, 0.02, 300, [0.1; 0.1; 0.1; 0.1], 0.005, 1000)
+
+plot(tspan, LE[1, :])
+plot!(tspan, LE[2, :])
+plot!(tspan, LE[3, :])
+plot!(tspan, LE[4, :])
+```
+
+By plot the Lyapunov exponent:
+
+![PWC](./assets/PWCLE.png)

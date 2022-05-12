@@ -1,6 +1,9 @@
 module FractionalSystems
 
-using ControlSystems, LinearAlgebra, FractionalDiffEq, SpecialFunctions
+using ControlSystems, ControlSystemIdentification
+using LinearAlgebra, SpecialFunctions
+using FractionalDiffEq
+using ForwardDiff
 
 include("foss/foss.jl")
 
@@ -16,5 +19,7 @@ export FOTF, fotf, fotfdata, base_order, fotf2cotf, rlocus, polyuniq, simplify, 
 export polyshow
 
 export FOSS, foss, foss2ss
+
+export FOLyapunov
 
 end

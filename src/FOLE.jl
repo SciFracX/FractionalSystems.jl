@@ -1,3 +1,5 @@
+using Plots
+
 """
     FOLyapunov()
 
@@ -14,21 +16,40 @@ Computing fractional order Lyapunov exponent of a fractionl order system.
 }
 ```
 """
-function FOLyapunov(ne::Int64, ext_fcn, t_start, h_norm, t_end, x_start, h, q, out)# TODO: Generate the Lyapunov exponent plot
+function FOLyapunov(ext_fcn, order, t_start, h_norm, t_end, u0, h, out)# TODO: Generate the Lyapunov exponent plot
+    ne::Int = length(u0)
+    Jfdefun(t, u) = jacobian_of_fdefun(ext_fcn, t, u)
+
+
+    tspan = Float64[]
+    LE = Float64[]
+
+    function newfun(t, temp)
+        #temp=ones(12)
+        temp=reshape(temp, ne, ne+1)
+        result = ext_fcn(zeros(ne), temp[:, 1], t)
+        #result = Jfdefun(0, temp[:, 1])'
+        #temp = temp[:, 2:end]
+        for i=2:ne+1
+            result = [result; Jfdefun(t, temp[:, 1])*temp[:, i]]
+        end
+        return result
+    end
     x = zeros(Float64, ne*(ne+1))
     x0 = zeros(Float64, ne*(ne+1))
     c = zeros(Float64, ne)
     gsc = zeros(Float64, ne)
     zn = zeros(Float64, ne)
     n_it = round(Int, (t_end-t_start)/h_norm)
-    x[1:ne] = x_start
+    x[1:ne] = u0
+    q = order*ones(ne*(ne+1))# fractional order of the extend system
     for i=1:ne
         x[(ne+1)*i]=1.0
     end
     t = t_start
     LExp = zeros(ne)
     for it=1:n_it
-        (_, Y) = pc(q, ext_fcn, t, t+h_norm, x, h)
+        (_, Y) = pc(q, newfun, t, t+h_norm, x, h)
         t = t+h_norm
         Y = Y'
 
@@ -79,8 +100,11 @@ function FOLyapunov(ne::Int64, ext_fcn, t_start, h_norm, t_end, x_start, h, q, o
                 x[ne*j+i]=x0[ne*i+j]
             end
         end
+        LE = [LE; LExp]
+        tspan = [tspan; t]
     end
-    return LExp
+    LE = reshape(LE, ne, :)
+    return LE, tspan
 end
 
 
@@ -412,19 +436,10 @@ function rowfft(x::AbstractMatrix, n)
     return result
 end
 
-
-function testtest!(t, u)
-    return [u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
-    u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
-    -2*u[3]*(0.98+u[1]*u[2]);
-    (2*u[1]*u[2]+0.1)*u[4] + (u[1]*u[1]+u[3]-1)*u[5] + u[2]*u[6];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[4] + 0.1*u[5] + 3*u[1]*u[6];
-    (-2*u[2]*u[3])*u[4] + (-2*u[1]*u[3])*u[5] + (-2*(u[1]*u[2]+0.98))*u[6];
-    (2*u[1]*u[2]+0.1)*u[7] + (u[1]*u[1]+u[3]-1)*u[8] + u[2]*u[9];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[7] + 0.1*u[8] + 3*u[1]*u[9];
-    (-2*u[2]*u[3])*u[7] + (-2*u[1]*u[3])*u[8] + (-2*(u[1]*u[2]+0.98))*u[9];
-    (2*u[1]*u[2]+0.1)*u[10] + (u[1]*u[1]+u[3]-1)*u[11] + u[2]*u[12];
-    (-3*u[1]*u[1]+3*u[3]+1)*u[10] + 0.1*u[11] + 3*u[1]*u[12];    
-    (-2*u[2]*u[3])*u[10] + (-2*u[1]*u[3])*u[11] + (-2*(u[1]*u[2]+0.98))*u[12]]
+function jacobian_of_fdefun(f, t, y)
+    ForwardDiff.jacobian(y) do y
+    du = similar(y)
+    f(du, y, t)
+    du
+    end
 end
-LE=FOLyapunov(3, testtest!, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 0.999*ones(12), 1000)
