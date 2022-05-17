@@ -11,7 +11,8 @@ using Test
     
     (LE, tspan)=FOLyapunov(RF, 0.999, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 1000)
 
-    @test isapprox(LE, [  0.06111650166568285
+    # Test the latest computed(final) Lyapunov exponents
+    @test isapprox(LE[end-2:end], [  0.06111650166568285
     0.0038981396237095034
    -1.8324646820425692]; atol=1e-3)
 end

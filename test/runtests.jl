@@ -4,5 +4,5 @@ using Test
 @testset "Test FractionalSystems.jl" begin
     include("fotf.jl")
     include("foss.jl")
-    #include("FOLE.jl")
+    include("FOLE.jl")
 end
