@@ -14,20 +14,18 @@ Computing fractional order Lyapunov exponent of a fractionl order system.
 }
 ```
 """
-function FOLyapunov(ext_fcn, order, t_start, h_norm, t_end, u0, h, out)# TODO: Generate the Lyapunov exponent plot
-    ne::Int = length(u0)
-    Jfdefun(t, u) = jacobian_of_fdefun(ext_fcn, t, u)
-
+function FOLyapunov(fun, order, t_start, h_norm, t_end, u0, h, out)# TODO: Generate the Lyapunov exponent plot
+    ne::Int = length(u0) # System dimension
+    
+    Jfdefun(t, u) = jacobian_of_fdefun(fun, t, u)
 
     tspan = Float64[]
     LE = Float64[]
 
-    function newfun(t, temp)
-        #temp=ones(12)
+    # Generate extend system with jacobian
+    function extend_fun(t, temp)
         temp=reshape(temp, ne, ne+1)
-        result = ext_fcn(zeros(ne), temp[:, 1], t)
-        #result = Jfdefun(0, temp[:, 1])'
-        #temp = temp[:, 2:end]
+        result = fun(zeros(ne), temp[:, 1], t)
         for i=2:ne+1
             result = [result; Jfdefun(t, temp[:, 1])*temp[:, i]]
         end
@@ -47,7 +45,7 @@ function FOLyapunov(ext_fcn, order, t_start, h_norm, t_end, u0, h, out)# TODO: G
     t = t_start
     LExp = zeros(ne)
     for it=1:n_it
-        (_, Y) = pc(q, newfun, t, t+h_norm, x, h)
+        (_, Y) = pc(q, extend_fun, t, t+h_norm, x, h) # Solve the extend system
         t = t+h_norm
         Y = Y'
 
