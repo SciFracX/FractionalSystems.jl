@@ -25,7 +25,8 @@ function FOLyapunov(fun, order, t_start, h_norm, t_end, u0, h, out)# TODO: Gener
     # Generate extend system with jacobian
     function extend_fun(t, temp)
         temp=reshape(temp, ne, ne+1)
-        result = fun(zeros(ne), temp[:, 1], t)
+        result = zeros(ne)
+        fun(result, temp[:, 1], nothing, t)
         for i=2:ne+1
             result = [result; Jfdefun(t, temp[:, 1])*temp[:, i]]
         end
@@ -103,7 +104,7 @@ function FOLyapunov(fun, order, t_start, h_norm, t_end, u0, h, out)# TODO: Gener
     return LE, tspan
 end
 
-
+FOLyapunov(sys::FODESystem, h_norm, h, out) = FOLyapunov(sys.f, sys.α, tspan[1], h_norm, tspan[2], sys.x0, h, out)
 
 mutable struct M
     an
@@ -220,7 +221,7 @@ function pc(alpha, f_fun, t0, T, y0, h)
     # Initializing solution and proces of computation
     t = t0 .+ collect(0:N)*h
     y[:, 1] = y0[:, 1]
-    fy[:, 1] = f_temp ;
+    fy[:, 1] = f_temp
     (y, fy) = Triangolo(1, r-1, t, y, fy, zn_pred, zn_corr, N, METH, problem_size, alpha_length, m_alpha, m_alpha_factorial, y0, t0, f_fun) ;
 
     # Main process of computation by means of the FFT algorithm
@@ -435,7 +436,7 @@ end
 function jacobian_of_fdefun(f, t, y)
     ForwardDiff.jacobian(y) do y
     du = similar(y)
-    f(du, y, t)
+    f(du, y, nothing, t)
     du
     end
 end

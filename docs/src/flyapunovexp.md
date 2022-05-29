@@ -18,7 +18,6 @@ function RF(du, u, t)
     du[1] = u[2]*(u[3]-1+u[1]*u[1])+0.1*u[1];
     du[2] = u[1]*(3*u[3]+1-u[1]*u[1])+0.1*u[2];
     du[3] = -2*u[3]*(0.98+u[1]*u[2]);
-    du
 end
 LE, tspan = FOLyapunov(RF, 0.98, 0, 0.02, 300, [0.1; 0.1; 0.1], 0.005, 1000)
 ```
@@ -46,7 +45,7 @@ The output would be:
 The computed **LE** is the Lyapunov exponent of this system.
 
 ```julia-repl
-julia> LE
+julia> LE[end-2:end]
 3×1 Matrix{Float64}:
   0.06111650166568285
   0.0038981396237095034
@@ -84,7 +83,6 @@ function Danca(du, u, t)
     du[2] = -u[3]*sign(u[1])+u[4]
     du[3] = abs(u[1])-1
     du[4] = -0.5*u[2]
-    du
 end
 
 LE, tspan=FOLyapunov(Danca, 0.98, 0, 0.02, 300, [0.1; 0.1; 0.1; 0.1], 0.005, 1000)
@@ -95,6 +93,6 @@ plot!(tspan, LE[3, :])
 plot!(tspan, LE[4, :])
 ```
 
-By plot the Lyapunov exponent:
+By plot the Lyapunov exponent spectrum:
 
 ![PWC](./assets/PWCLE.png)

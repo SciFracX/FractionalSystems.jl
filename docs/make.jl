@@ -18,7 +18,7 @@ makedocs(;
         "Get Started" => "get_started.md",
         "Root Locus" => "rlocus.md",
         "Frequency Analysis" => "frequency.md",
-        "Lyapunov Exponents" => "flyapunovexp.md",
+        "Lyapunov Exponents Spectrum" => "flyapunovexp.md",
         "Conversation" => "conversation.md"
     ],
 )
