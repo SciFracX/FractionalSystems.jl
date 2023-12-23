@@ -2,7 +2,6 @@ module FractionalSystems
 
 using ControlSystems, ControlSystemIdentification
 using LinearAlgebra, SpecialFunctions
-import FractionalDiffEq: FODESystem
 using ForwardDiff
 
 include("foss/foss.jl")
