@@ -28,7 +28,7 @@ function polyshow(p, np)
     P = ""
     p = p[ii]
 
-    for i = 1:length(p)
+    for i in eachindex(p)
         P = P*"+"*"$(p[i])"*"s^"*"{$(np[i])}"
     end
 
